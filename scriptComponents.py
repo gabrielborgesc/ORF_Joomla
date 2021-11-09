@@ -30,16 +30,14 @@ def readComponents(path):
     nameStandard = read_config.get("Standard", "name")
     standardComponents = nameStandard.split(",\n")
 
-
     #Script de separação de componentes
-    for file in glob.iglob(path + '/*.xml', recursive=True):
+    for file in glob.glob( path + '**/*.xml', recursive=True):
         tree = ET.parse(file)
-        print("print file: " + file)
         root = tree.getroot()
         for version in root.iter('version'):   
             filenames = file.split("/")
-            componentName = filenames[1].split(".xml")[0]
-            if ((componentName not in standardComponents) and componentName == filenames[0].split("_")[1]):
+            componentName = filenames[len(filenames)-1].split(".xml")[0]
+            if ((componentName not in standardComponents) and componentName == filenames[len(filenames)-2].split("_")[1]):
 
                 component = Component(componentName, version.text)
                 
