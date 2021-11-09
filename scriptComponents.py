@@ -16,7 +16,7 @@ versionpermittedComponents = []
 read_config = configparser.ConfigParser()
 read_config.read("standardcomponents.ini")
 namePermitted = read_config.get("Permitted", "name_version")
-namesPermitted = namePermitted.split(",")
+namesPermitted = namePermitted.split(",\n")
 for x in namesPermitted:
     namepermittedComponents.append(x.split("_")[0])
     versionpermittedComponents.append(x.split("_")[1])
@@ -27,7 +27,7 @@ for x in namesPermitted:
 read_config = configparser.ConfigParser()
 read_config.read("standardcomponents.ini")
 nameStandard = read_config.get("Standard", "name")
-standardComponents = nameStandard.split(",")
+standardComponents = nameStandard.split(",\n")
 
 
 #Script de separação de componentes
@@ -51,8 +51,8 @@ for file in glob.iglob('**/*.xml', recursive=True):
 
 
 
-#Print de componentes permitidos
-for component in permittedsArray:
+#Print de componentes permitidos ou não permitidos
+for component in notpermittedsArray:
     print(component.name + " " + component.version)
 
 
