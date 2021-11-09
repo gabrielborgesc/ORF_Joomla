@@ -4,6 +4,9 @@ import os
 from scriptComponents import readComponents
 import zipfile
 import shutil
+import platform
+from getComponentPathFromWindows import getPathFromWindows
+from getComponentPathFromLinux import getPathFromLinux
 
 argv = sys.argv[1:]
 
@@ -16,17 +19,11 @@ else:
     path = arg
 
 
-#Colocar o path até a pasta do Site]
-filename0 = path.split(".")
-filename1 = filename0[0].split("/")
-filename2 = filename1[-1]
+if(platform.system()=="Windows"):
+    getPathFromWindows(path)
 
-with zipfile.ZipFile(path, 'r') as zip_ref:
-    paths = path.split(os.sep)
-    path = path.replace(paths[-1],"")
-    zip_ref.extractall(path)
+elif(platform.system()=="Linux"):
+    getPathFromLinux(path)
 
-readComponents(os.path.join(path, filename2 , 'administrator', 'components'))
-
-shutil.rmtree(os.path.join(path, filename2))
-
+else:
+    print("Sistema operacional Inválido")
