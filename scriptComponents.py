@@ -4,6 +4,7 @@ import re
 import xml.etree.ElementTree as ET
 from components import Component
 import configparser
+import os
 
 def readComponents(path):
     #Criação de arrays
@@ -31,11 +32,11 @@ def readComponents(path):
     standardComponents = nameStandard.split(",\n")
 
     #Script de separação de componentes
-    for file in glob.glob( path + '**/*.xml', recursive=True):
+    for file in glob.glob(os.path.join(path, '**'+ os.sep +'*.xml'), recursive=True):
         tree = ET.parse(file)
         root = tree.getroot()
         for version in root.iter('version'):   
-            filenames = file.split("/")
+            filenames = file.split(os.sep)
             componentName = filenames[len(filenames)-1].split(".xml")[0]
             if ((componentName not in standardComponents) and componentName == filenames[len(filenames)-2].split("_")[1]):
 

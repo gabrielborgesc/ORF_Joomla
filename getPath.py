@@ -1,5 +1,6 @@
 import getopt
 import sys
+import os
 from scriptComponents import readComponents
 
 argv = sys.argv[1:]
@@ -14,5 +15,6 @@ else:
 
 
 #Colocar o path até a pasta do Site
-readComponents(path+"/administrator/components/")
+
+readComponents(os.path.join(path, 'administrator', 'components'))
 
