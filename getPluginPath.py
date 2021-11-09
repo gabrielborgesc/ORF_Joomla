@@ -16,5 +16,5 @@ else:
 
 #Colocar o path até a pasta do Site
 
-readComponents(os.path.join(path, 'administrator', 'components'))
+readPlugins(os.path.join(path, 'plugins'))
 
