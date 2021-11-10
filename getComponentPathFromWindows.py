@@ -8,7 +8,6 @@ def getPathFromWindows(path):
     filename0 = path.split(".")
     filename1 = filename0[0].split(os.sep)
     filename2 = filename1[-1]
-    print(filename2)
 
     with zipfile.ZipFile(path, 'r') as zip_ref:
         paths = path.split(os.sep)

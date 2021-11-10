@@ -32,7 +32,7 @@ def readComponents(path):
     standardComponents = nameStandard.split(",\n")
 
     #Script de separação de componentes
-    for file in glob.glob(os.path.join(path, '**'+ os.sep +'*.xml'), recursive=True):
+    for file in glob.glob(os.path.join(path, '**', '*.xml'), recursive=True):
         tree = ET.parse(file)
         root = tree.getroot()
         for version in root.iter('version'):   
