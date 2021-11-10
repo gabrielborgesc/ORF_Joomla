@@ -36,8 +36,10 @@ def readComponents(path, sqlpath):
     nameStandard = read_config.get("Standard", "name")
     standardComponents = nameStandard.split(",\n")#Array
 
+
     #Script de separação de componentes do XML
     for file in glob.glob(os.path.join(path, '**','*.xml'), recursive=True):
+
         tree = ET.parse(file)
         root = tree.getroot()
         for version in root.iter('version'):
