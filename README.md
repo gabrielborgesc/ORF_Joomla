@@ -1,6 +1,6 @@
 # ORF_Joomla
 
-Script para análise de vulnerabilidades de sites JOOMLA! a partir de suas dependências instaladas
+Script para análise de vulnerabilidades de sites JOOMLA! a partir de suas dependências instaladas.
 
 Para executar o script basta utilizar o seguinte comando: 
 
