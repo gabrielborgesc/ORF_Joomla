@@ -13,7 +13,7 @@ argv = sys.argv[1:]
 opts, args = getopt.getopt(argv, 'i:', ['foperand'])
 
 if len(opts) < 1:
-  print ('usage: add.py -a <first_operand> -b <second_operand>')
+  print ('usage: add.py -i <input absolute filename>')
 else:
   for opt, arg in opts:
     path = arg
