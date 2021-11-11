@@ -16,9 +16,9 @@ As versões dos componentes e plugins permitidos e padrões do [Joomla! governam
 Para executar o script basta utilizar o seguinte comando: 
 
 ```
-python3 getComponentPath.py -i "<Diretório_do_arquivo_zipado_do_site" "<Diretório_do_arquivo_do_banco_de_dados_SQL>"
+python3 main.py -i "<Diretório_do_arquivo_zipado_do_site" "<Diretório_do_arquivo_do_banco_de_dados_SQL>"
 ```
 
 ## Resultado
 
-São gerados 6 relatórios no formato csv acerca dos componentes e plugins não permitidos, além dos permitidos com versões atualizadas e os permitos com versões desatualizadas.
+São gerados 6 relatórios no formato csv acerca dos componentes e plugins não permitidos, além dos permitidos com versões atualizadas e os permitos com versões desatualizadas, ambos na pasta Resultados.
