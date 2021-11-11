@@ -1,3 +1,5 @@
+import sys
+sys.path.append("./Entities")
 from components import Component
 import os
 

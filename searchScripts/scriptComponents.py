@@ -2,11 +2,15 @@
 import glob
 import csv
 import xml.etree.ElementTree as ET
+import sys
+sys.path.append("./Entities")
 from components import Component
 import configparser
 import os
 import shutil
 import SQLSearch
+
+configPath = "./config/"
 
 def readComponents(path, sqlpath):
 
@@ -24,7 +28,7 @@ def readComponents(path, sqlpath):
     SQLSearch.execute(path, sqlpath)
     #Leitura dos componentes e versões permitidas
     read_config = configparser.ConfigParser()
-    read_config.read("standardcomponents.ini")
+    read_config.read( configPath +"standardcomponents.ini")
     namePermitted = read_config.get("Permitted", "name_version")
     namesPermitted = namePermitted.split(",\n")
     for x in namesPermitted:
@@ -36,7 +40,7 @@ def readComponents(path, sqlpath):
 
     #Leitura dos componentes standard
     read_config = configparser.ConfigParser()
-    read_config.read("standardcomponents.ini")
+    read_config.read(configPath + "standardcomponents.ini")
     nameStandard = read_config.get("Standard", "name")
     standardComponents = nameStandard.split(",\n")#Array
 
@@ -97,7 +101,7 @@ def readComponents(path, sqlpath):
     #ALEATORIO TENTATIVA NAO VOU CONSEGUIR KKK
 
     read_config = configparser.ConfigParser()
-    read_config.read("standardplugins.ini")
+    read_config.read(configPath + "standardplugins.ini")
     namePermitted = read_config.get("Permitted", "name_version")
     namesPermitted = namePermitted.split(",\n")
 
@@ -109,7 +113,7 @@ def readComponents(path, sqlpath):
         Permitted_plugins.append(Component(n, v))  # Array com Componentes permitidos e suas versoes (tabela)
 
     read_config = configparser.ConfigParser()
-    read_config.read("standardplugins.ini")
+    read_config.read(configPath + "standardplugins.ini")
     nameStandard = read_config.get("Standard", "name")
     standardPlugins = nameStandard.split(",\n")
 

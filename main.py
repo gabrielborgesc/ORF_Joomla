@@ -1,12 +1,15 @@
 import getopt
 import sys
 import os
-from scriptComponents import readComponents
 import zipfile
 import shutil
 import platform
+sys.path.append("./getComponents")
 from getComponentPathFromWindows import getPathFromWindows
 from getComponentPathFromLinux import getPathFromLinux
+sys.path.append("./searchScripts")
+from scriptComponents import readComponents
+
 
 argv = sys.argv[1:]
 

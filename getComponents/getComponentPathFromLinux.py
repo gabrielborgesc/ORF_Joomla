@@ -1,6 +1,8 @@
 
 import zipfile
 import os
+import sys
+sys.path.append("./searchScripts")
 from scriptComponents import readComponents
 import shutil
 
