@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from components import Component
 import configparser
 import os
+import shutil
 import SQLSearch
 
 def readComponents(path, sqlpath):
@@ -14,8 +15,11 @@ def readComponents(path, sqlpath):
     notpermittedsArray = []
     standardComponents = []
     namepermittedComponents = []
+    namepermittedPlugins = []
+    versionpermittedPlugins = []
     versionpermittedComponents = []
     Permitted_components =[]
+    Permitted_plugins = []
 
     SQLSearch.execute(path, sqlpath)
     #Leitura dos componentes e versões permitidas
@@ -36,10 +40,8 @@ def readComponents(path, sqlpath):
     nameStandard = read_config.get("Standard", "name")
     standardComponents = nameStandard.split(",\n")#Array
 
-
     #Script de separação de componentes do XML
     for file in glob.glob(os.path.join(path, '**','*.xml'), recursive=True):
-
         tree = ET.parse(file)
         root = tree.getroot()
         for version in root.iter('version'):
@@ -72,20 +74,91 @@ def readComponents(path, sqlpath):
      if i.name not in standardComponents and i not in Components_used_permitted_version_ok and i not in Components_used_permitted_old_version:
        Components_used_not_permitted.append(i)
 
+     if not os.path.isdir("Resultados"):
+       os.mkdir("Resultados")
+    #COMPARA E CHECA SE A ANALISE DOS ARQS XML ENCONTROU ALGUM COMPONENTE NAO PRESENTE NA BUSCA AO SQL
+    compareXMLandSQLResult(notpermittedsArray,Components_used_not_permitted)
+
     print("********************Componentes Permitidos Atualizados***************************")
     for i in Components_used_permitted_version_ok:
         print(i.name + " " + i.version)
-    CreateCSV("ComponentesPermitidosAtualizados.csv",Components_used_permitted_version_ok)
+    CreateCSV("Resultados/ComponentesPermitidosAtualizados.csv",Components_used_permitted_version_ok)
 
     print("******************Componentes Permitidos Desatualizados**************************")
     for i in Components_used_permitted_old_version:
        print(i.name + " " + i.version)
-    CreateCSV("ComponentesPermitidosDesatualizados.csv", Components_used_permitted_old_version)
+    CreateCSV("Resultados/ComponentesPermitidosDesatualizados.csv", Components_used_permitted_old_version)
 
     print("***********************Componentes Não Permitidos*******************************")
     for i in Components_used_not_permitted:
         print(i.name + " " + i.version)
-    CreateCSV("ComponentesNaoPermitidos.csv",Components_used_not_permitted)
+    CreateCSV("Resultados/ComponentesNaoPermitidos.csv",Components_used_not_permitted)
+
+    #ALEATORIO TENTATIVA NAO VOU CONSEGUIR KKK
+
+    read_config = configparser.ConfigParser()
+    read_config.read("standardplugins.ini")
+    namePermitted = read_config.get("Permitted", "name_version")
+    namesPermitted = namePermitted.split(",\n")
+
+    for x in namesPermitted:
+        n = x.split("_")[0]
+        namepermittedPlugins.append(x.split("_")[0])
+        versionpermittedPlugins.append(x.split("_")[1])
+        v = x.split("_")[1]
+        Permitted_plugins.append(Component(n, v))  # Array com Componentes permitidos e suas versoes (tabela)
+
+    read_config = configparser.ConfigParser()
+    read_config.read("standardplugins.ini")
+    nameStandard = read_config.get("Standard", "name")
+    standardPlugins = nameStandard.split(",\n")
+
+
+
+    Plugins_used_permitted_version_ok = []
+    Plugins_used_permitted_old_version = []
+    Plugins_used_not_permitted = []
+
+    s = SQLSearch.getAllPlugins()
+
+    for i in s:
+        for j in Permitted_plugins:
+            if i.name == j.name:
+                if isNewerVersion(i.version, j.version):
+                    Plugins_used_permitted_version_ok.append(i)
+                else:
+                    Plugins_used_permitted_old_version.append(i)
+
+        if i.name not in standardPlugins and i not in Plugins_used_permitted_version_ok and i not in Plugins_used_permitted_old_version:
+            Plugins_used_not_permitted.append(i)
+
+
+
+    print("********************Plugins Permitidos Atualizados***************************")
+    for i in Plugins_used_permitted_version_ok:
+        print(i.name + " " + i.version)
+    CreateCSV("Resultados/PluginsPermitidosAtualizados.csv", Plugins_used_permitted_version_ok)
+
+    print("******************Plugins Permitidos Desatualizados**************************")
+    for i in Plugins_used_permitted_old_version:
+        print(i.name + " " + i.version)
+    CreateCSV("Resultados/PluginsPermitidosDesatualizados.csv", Plugins_used_permitted_old_version)
+
+    print("***********************Plugins Não Permitidos*******************************")
+    for i in Plugins_used_not_permitted:
+        print(i.name + " " + i.version)
+    CreateCSV("Resultados/PluginsNaoPermitidos.csv", Plugins_used_not_permitted)
+
+
+def compareXMLandSQLResult(XMLResult, SQLResult):
+    SQLNames = []
+
+    for i in SQLResult:
+        SQLNames.append(i.name)
+
+    for i in XMLResult:
+        if i.name not in SQLNames:
+            SQLResult.append(i)
 
 
 def isNewerVersion(v1,v2): #Retorna true se v1 eh a versao mais recente ou a mesma que v2

@@ -52,6 +52,7 @@ def execute(path, sqlpath):
 	#Encontrando Plugins
 	iter = beginExtensions
 
+	PluginsAux = []
 	while 1:
 		newIterValue = lines.find("\\'plugin\\'", iter, endExtensions)
 		iter = newIterValue + 1
@@ -68,13 +69,17 @@ def execute(path, sqlpath):
 			l = max(l1, l2)
 
 		pluginName = lines[l:endExtensions].split(",")[0].replace("\\", "").replace("'", "").replace("\"", "")
-
+		pluginName = pluginName.split("_")[len(pluginName.split("_"))-1].lower()
 		j = lines.find("\"version\\", newIterValue+1, endExtensions)
 		pluginVersion = lines[j:endExtensions].split(",")[0].split(":")[1].replace(":", "").replace("\\", "").replace("\"", "")
+		PluginsAux.append(Component(pluginName, pluginVersion))
 
-		Plugins.append(Component(pluginName.replace("plg_", "").replace("PLG_", ""), pluginVersion))
-
-	Plugins.sort()
+	PluginsAux.sort()
+	for i in range(len(PluginsAux) - 1):
+		if PluginsAux[i].name != PluginsAux[i+1].name:
+			Plugins.append(PluginsAux[i])
+			if((i+1) == len(PluginsAux)):
+				Plugins.append(PluginsAux[i+1])
 
 
 
