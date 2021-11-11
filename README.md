@@ -8,7 +8,7 @@ Python 3 (sem nenhuma biblioteca externa).
 
 ## Configuração
 
-As versões dos componentes e plugins permitidos e padrões do [Joomla! governamental](https://github.com/joomlagovbr/joomla-3.x) devem ser configurados conforme os arquivos .INI presentes no projeto.
+As versões dos componentes e plugins permitidos e padrões do [Joomla! Governamental](https://github.com/joomlagovbr/joomla-3.x) devem ser configurados conforme os arquivos .INI presentes no projeto.
 
 
 ## Execução
